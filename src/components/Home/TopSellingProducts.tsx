@@ -70,7 +70,7 @@ const TopSellingProducts = () => {
               Customer Favorites
             </span>
 
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl font-medium text-gray-900 sm:text-4xl">
               Top Selling Products
             </h2>
 
