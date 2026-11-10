@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.hero-pagination .swiper-pagination-bullet {
+  width: 9px;
+  height: 9px;
+  background: #16a34a;
+  opacity: 0.65;
+  transition: all 0.3s ease;
+}
+
+.hero-pagination .swiper-pagination-bullet-active {
+  width: 25px;
+  border-radius: 20px;
+  background: #16a34a;
+  opacity: 1;
+}
