@@ -1,137 +1,154 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999",
+    title: "Healthy Foods",
+    subtitle:
+      "Eat fresh, live healthy. Discover nutritious food for your family.",
+    image: "/hero/healthy-foods.png",
+    alt: "Colorful selection of fresh fruits and vegetables",
+  },
+  {
+    title: "Fresh Organic",
+    subtitle:
+      "Naturally grown goodness, carefully selected for your everyday needs.",
+    image: "/hero/fresh-organic.png",
+    alt: "Fresh organic vegetables displayed at a market",
+  },
+  {
     title: "Fresh Vegetables",
-    subtitle: "Naturally Fresh, Always Healthy",
-    description: "Bring farm-fresh goodness to your kitchen every day.",
-    link: "/collections/vegetables",
-  },
-  {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601",
-    title: "Healthy Food Choices",
-    subtitle: "Eat Fresh, Live Better",
-    description: "Discover delicious and nutritious food for your family.",
-    link: "/collections/food",
-  },
-  {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-    title: "Fresh & Organic",
-    subtitle: "Good Food, Good Life",
-    description: "Enjoy colorful salads made with fresh ingredients.",
-    link: "/collections/salad",
+    subtitle: "Bring home farm-fresh vegetables and enjoy the taste of nature.",
+    image: "/hero/fresh-vegetables.png",
+    alt: "Fresh vegetables displayed at a local market",
   },
 ];
 
 const HeroSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const nextSlide = () => {
+    setActiveIndex((current) => (current + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
+  };
+
+  // Automatically change slides every 6 seconds
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const activeSlide = slides[activeIndex];
+
   return (
-    <section className="bg-white py-6">
-      <div className="mx-auto max-w-[100rem] px-4">
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
-          {/* Main Slider */}
-          <div className="relative lg:col-span-8">
-            <Swiper
-              modules={[Autoplay, Navigation, Pagination]}
-              slidesPerView={1}
-              loop={true}
-              speed={800}
-              autoplay={{
-                delay: 4000,
-                disableOnInteraction: false,
-              }}
-              navigation={{
-                prevEl: ".hero-prev",
-                nextEl: ".hero-next",
-              }}
-              pagination={{
-                clickable: true,
-                el: ".hero-pagination",
-              }}
-              className="hero-swiper overflow-hidden rounded-2xl"
+    <section className="relative isolate h-[80vh] min-h-135 max-h-250 w-full overflow-hidden bg-green-950">
+      {/* Background image slider */}
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={activeIndex}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+        >
+          <motion.img
+            src={activeSlide.image}
+            alt={activeSlide.alt}
+            className="absolute inset-0 h-full w-full object-cover"
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.16 }}
+            transition={{
+              duration: 6.8,
+              ease: "linear",
+            }}
+            loading="eager"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
+
+      {/* Hero content */}
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-center px-5 sm:px-8 lg:px-12">
+        <div className="max-w-2xl text-white">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, x: -45 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -25 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              {slides.map((slide) => (
-                <SwiperSlide key={slide.id}>
-                  <a
-                    href={slide.link}
-                    className="group relative block aspect-[2.1/1] overflow-hidden bg-gray-100"
-                  >
-                    <img
-                      src={slide.image}
-                      alt={slide.title}
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+              <span className="mb-5 inline-block rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-sm sm:text-sm">
+                Freshness You Can Trust
+              </span>
 
-                    {/* Dark Overlay */}
-                    <div className="absolute inset-0 bg-linear-to-r from-black/55 via-black/20 to-transparent" />
+              <h1 className="mb-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                {activeSlide.title}
+              </h1>
 
-                    {/* Content */}
-                    <div className="absolute inset-y-0 left-0 flex max-w-xl flex-col justify-center px-6 text-white sm:px-10 lg:px-12">
-                      <span className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-green-300 sm:text-sm">
-                        {slide.subtitle}
-                      </span>
+              <p className="mb-8 max-w-xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8">
+                {activeSlide.subtitle}
+              </p>
 
-                      <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-                        {slide.title}
-                      </h2>
-
-                      <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/90 sm:text-base">
-                        {slide.description}
-                      </p>
-
-                      <span className="mt-6 w-fit rounded-full bg-green-600 px-7 py-3 text-sm font-semibold transition-colors hover:bg-green-700">
-                        Shop Now
-                      </span>
-                    </div>
-                  </a>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-
-            {/* Previous Button */}
-            <button
-              type="button"
-              aria-label="Previous slide"
-              className="hero-prev absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-800 shadow-lg transition hover:bg-green-600 hover:text-white"
-            >
-              &#8592;
-            </button>
-
-            {/* Next Button */}
-            <button
-              type="button"
-              aria-label="Next slide"
-              className="hero-next absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-800 shadow-lg transition hover:bg-green-600 hover:text-white"
-            >
-              &#8594;
-            </button>
-
-            {/* Pagination */}
-            <div className="hero-pagination absolute bottom-4 left-0 z-10 flex w-full justify-center gap-2" />
-          </div>
-
-          {/* Side Promotional Banner */}
-          <div className="hidden lg:col-span-4 lg:block">
-            <a
-              href="/collections/organic-honey"
-              className="group relative block h-full min-h-[220px] overflow-hidden rounded-2xl bg-gray-100"
-            >
-              <img
-                src="https://cdn.ghorerbazar.com/banner/ZwGbr1787805653-500x410.png"
-                alt="Organic food promotional banner"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </a>
-          </div>
+              <a
+                href="/products"
+                className="group inline-flex items-center gap-3 rounded-full bg-green-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-green-950/30 transition-all duration-300 hover:bg-green-500 hover:shadow-green-500/30 sm:text-base"
+              >
+                Shop Now
+                <ArrowRight
+                  size={19}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </a>
+            </motion.div>
+          </AnimatePresence>
         </div>
+      </div>
+
+      {/* Previous / Next controls */}
+      <div className="absolute bottom-8 right-5 z-20 flex items-center gap-3 sm:right-10">
+        <button
+          type="button"
+          onClick={prevSlide}
+          aria-label="Previous slide"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-black/20 text-white backdrop-blur-sm transition hover:bg-white hover:text-green-800"
+        >
+          <ChevronLeft size={22} />
+        </button>
+
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Next slide"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-black/20 text-white backdrop-blur-sm transition hover:bg-white hover:text-green-800"
+        >
+          <ChevronRight size={22} />
+        </button>
+      </div>
+
+      {/* Slide indicators */}
+      <div className="absolute bottom-12 left-5 z-20 flex items-center gap-2 sm:left-12">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.title}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            aria-label={`Go to ${slide.title} slide`}
+            aria-current={activeIndex === index ? "true" : undefined}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              activeIndex === index
+                ? "w-10 bg-green-400"
+                : "w-5 bg-white/50 hover:bg-white"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

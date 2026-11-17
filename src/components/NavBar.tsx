@@ -65,7 +65,7 @@ const SearchBar = ({ className = "" }: { className?: string }) => {
       params.delete("q");
     }
 
-    navigate(`/search?${params.toString()}`);
+    navigate(`/products?${params.toString()}`);
   };
 
   return (
