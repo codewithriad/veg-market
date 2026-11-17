@@ -23,7 +23,7 @@ const ProductCard = ({
   return (
     <article
       onClick={() => navigate(`/products/${product.id}`)}
-      className="group cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-green transition-all duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl"
+      className="group cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-green-200/10 transition-all duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl"
     >
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden bg-gray-50">
