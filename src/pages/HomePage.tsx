@@ -1,5 +1,5 @@
 import Footer from "../components/Footer";
-import { CategorySlider } from "../components/Home/CategorySlider";
+import FeaturedCategories from "../components/Home/FeaturedCategories";
 import DiscountBanner from "../components/Home/DiscoutnBanner";
 import HeroSection from "../components/Home/HeroSection";
 import Testimonials from "../components/Home/Testimonials";
@@ -11,7 +11,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <TrustFeatures />
-      <CategorySlider />
+      <FeaturedCategories />
 
       <TopSellingProducts />
 
